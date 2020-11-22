@@ -1,4 +1,9 @@
+import 'dart:developer';
+//import 'dart:html';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 
 class RoutineHomePage extends StatefulWidget {
   RoutineHomePage({Key key, this.title}) : super(key: key);
@@ -32,6 +37,10 @@ class _RoutineHomePageState extends State<RoutineHomePage> {
     });
   }
 
+  void tap() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -41,46 +50,79 @@ class _RoutineHomePageState extends State<RoutineHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the RoutineHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      backgroundColor: Colors.white,
+      body: SafeArea(
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height/7),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Column(
+              children: [
+                
+                /*Center(
+                  child: CupertinoButton(
+                    color: Colors.blue,
+                    padding: EdgeInsets.all(5),
+                    
+                  ),
+                ),*/
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    PageButton(label:"Daily", width: 140),
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 20)),
+                    PageButton(
+                      label:"Events", 
+                      width: 140,
+                      onTap: () => {log("Events was clicked")}
+                      
+                    )
+                  ],
+                ),
+              ]
+            )
           ],
         ),
+      )
+    );
+  }
+}
+
+class PageButton extends StatelessWidget {
+  String label;
+  double width;
+  Function onTap;
+
+  PageButton({String label, double width=null, Function onTap}) {
+    this.label = label;
+    this.width = width;
+    this.onTap = onTap;
+  }
+
+  @override 
+  Widget build(BuildContext context) {
+    return GestureDetector (
+      child: Container(
+        child: Center(
+          child: new Text(
+            label, 
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+            ),
+          ),
+        ),
+        width: this.width,
+        padding: EdgeInsets.symmetric(horizontal: 35, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.black87,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      onTap: this.onTap
     );
   }
 }
